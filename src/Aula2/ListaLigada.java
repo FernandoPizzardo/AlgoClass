@@ -25,9 +25,17 @@ public class ListaLigada {
     private int totalElementos = 0;
 
     public void addFirst(Object elemento){
-        Celula nova = new Celula(elemento, primeiro);
-        this.primeiro = nova;
-        if (this.totalElementos == 0) this.ultimo = this.primeiro;
+        if(this.totalElementos == 0){
+            Celula nova = new Celula(elemento);
+            this.primeiro = nova;
+            this.ultimo = nova;
+        }else {
+            Celula nova = new Celula(elemento, this.primeiro);
+            this.primeiro.setAnterior(nova);
+            this.primeiro = nova;
+
+        }
+
         this.totalElementos++;
 
     }
@@ -35,8 +43,9 @@ public class ListaLigada {
         if (this.totalElementos == 0){
             addFirst(elemento);
         } else {
-            Celula nova = new Celula(elemento, null);
+            Celula nova = new Celula(elemento);
             this.ultimo.setProximo(nova);
+            nova.setAnterior(this.ultimo);
             this.ultimo = nova;
             this.totalElementos++;
         }
@@ -64,8 +73,12 @@ public class ListaLigada {
             add(elemento);
         }else {
             Celula anterior = this.fetchCelula(posicao - 1);
+            Celula proxima = anterior.getProximo();
             Celula nova = new Celula(elemento, anterior.getProximo());
+            nova.setAnterior(anterior);
             anterior.setProximo(nova);
+            proxima.setAnterior(nova);
+            this.totalElementos++;
         }
 
     }
@@ -83,7 +96,32 @@ public class ListaLigada {
             this.ultimo = null;
         }
     }
-    public void remove(int posicao){}
+    public void removeLast(){
+        if(totalElementos == 1){
+            this.removeFirst();
+        } else {
+            Celula penultima = this.ultimo.getAnterior();
+            penultima.setProximo(null);
+            this.ultimo = penultima;
+            this.totalElementos--;
+        }
+    }
+    public void remove(int posicao){
+        if(posicao == 0){
+            this.removeFirst();
+        } else if (posicao == this.totalElementos - 1) {
+            this.removeLast();
+        }
+        else {
+            Celula anterior = this.fetchCelula(posicao - 1);
+            Celula atual = anterior.getProximo();
+            Celula proxima = atual.getProximo();
+
+            anterior.setProximo(proxima);
+            proxima.setAnterior(anterior);
+            this.totalElementos--;
+        }
+    }
     public int tamanho() {return 0;}
     public boolean contem(Object o) {return false;}
 }
