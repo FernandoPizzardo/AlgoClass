@@ -5,7 +5,7 @@ import Aula1.Aluno;
 import java.util.Arrays;
 
 public class Vetor {
-    private Aluno[] alunos = new Aluno[100];
+    private Aluno[] alunos = new Aluno[5];
     private int totalAlunos = 0;
 
     private boolean posicaoOcupada(int posicao){
