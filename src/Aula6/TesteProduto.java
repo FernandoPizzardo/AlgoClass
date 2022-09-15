@@ -14,6 +14,7 @@ public class TesteProduto {
 
         maisBarato = getMaisBarato(produtos, maisBarato, 0, 2);
 
+        System.out.println("Luna");
         System.out.println("o mais barato é o " + produtos[maisBarato].getNome() + " seu pão duro!");
 
     }
